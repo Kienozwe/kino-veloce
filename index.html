@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KINO — Premium Car Rental</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ── INDEX PAGE STYLES ── */
+:root { --sidebar:0px; }
+
+/* HERO */
+.hero {
+  min-height: 100vh; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; text-align: center;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(201,168,76,0.04) 0%, transparent 50%),
+    var(--black);
+}
+.hero-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg, transparent, transparent 39px, rgba(255,255,255,0.012) 39px, rgba(255,255,255,0.012) 40px
+  ), repeating-linear-gradient(
+    90deg, transparent, transparent 39px, rgba(255,255,255,0.012) 39px, rgba(255,255,255,0.012) 40px
+  );
+}
+.hero-content { position: relative; z-index: 1; max-width: 860px; padding: 0 24px; }
+.hero-eyebrow {
+  font-size: 11px; letter-spacing: 5px; color: var(--gold); text-transform: uppercase;
+  margin-bottom: 24px; opacity: 0;
+  animation: revealUp 0.8s 0.2s ease forwards;
+}
+.hero-title {
+  font-family: var(--font-d); font-size: clamp(64px, 12vw, 120px); line-height: 0.9;
+  color: var(--white); font-weight: 300; margin-bottom: 28px;
+  opacity: 0; animation: revealUp 0.9s 0.4s ease forwards;
+}
+.hero-title em { color: var(--gold); font-style: italic; }
+.hero-sub {
+  font-size: 15px; color: var(--muted); max-width: 460px; margin: 0 auto 48px;
+  line-height: 1.8; opacity: 0;
+  animation: revealUp 0.9s 0.6s ease forwards;
+}
+.hero-cta {
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  opacity: 0; animation: revealUp 0.9s 0.8s ease forwards;
+}
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* NAVBAR */
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  padding: 0 48px; height: 72px; display: flex; align-items: center; justify-content: space-between;
+  background: rgba(8,8,8,0); backdrop-filter: blur(0px);
+  border-bottom: 1px solid transparent;
+  transition: all 0.4s ease;
+}
+.navbar.scrolled {
+  background: rgba(8,8,8,0.95); backdrop-filter: blur(16px);
+  border-bottom-color: var(--border);
+}
+.nav-logo { font-family: var(--font-d); font-size: 28px; letter-spacing: 6px; color: var(--white); font-weight: 600; }
+.nav-logo span { color: var(--gold); }
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-link { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); transition: color var(--transition); }
+.nav-link:hover { color: var(--white); }
+.nav-admin-btn {
+  font-size: 11px; letter-spacing: 1.8px; text-transform: uppercase;
+  color: var(--gold); border: 1px solid rgba(201,168,76,0.35); padding: 8px 18px;
+  border-radius: var(--r); transition: all var(--transition);
+}
+.nav-admin-btn:hover { background: var(--gold-dim); border-color: var(--gold); }
+
+/* FLEET SECTION */
+.section { padding: 100px 48px; }
+.section-header { text-align: center; margin-bottom: 64px; }
+.section-eyebrow { font-size: 11px; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin-bottom: 16px; }
+.section-title { font-family: var(--font-d); font-size: clamp(40px, 6vw, 64px); color: var(--white); font-weight: 300; }
+.section-title em { color: var(--gold); font-style: italic; }
+.section-sub { font-size: 14px; color: var(--muted); margin-top: 12px; }
+
+.cars-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; max-width: 1280px; margin: 0 auto; }
+
+.car-card {
+  background: var(--charcoal); border: 1px solid var(--border);
+  border-radius: var(--r2); overflow: hidden;
+  transition: all var(--transition); position: relative;
+}
+.car-card:hover { border-color: rgba(201,168,76,0.35); transform: translateY(-3px); box-shadow: var(--sh); }
+.car-card-img {
+  width: 100%; height: 200px; object-fit: cover;
+  background: var(--dark); transition: transform 0.4s ease;
+}
+.car-card:hover .car-card-img { transform: scale(1.03); }
+.car-card-img-wrap { overflow: hidden; }
+.car-card-body { padding: 22px; }
+.car-card-name { font-family: var(--font-d); font-size: 24px; color: var(--white); margin-bottom: 4px; }
+.car-card-type { font-size: 11px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; margin-bottom: 16px; }
+.car-card-specs {
+  display: flex; gap: 0; margin-bottom: 18px;
+  border: 1px solid var(--border); border-radius: var(--r); overflow: hidden;
+}
+.spec-item {
+  flex: 1; padding: 10px 8px; text-align: center;
+  border-right: 1px solid var(--border); background: var(--dark);
+}
+.spec-item:last-child { border-right: none; }
+.spec-val { font-size: 14px; font-weight: 600; color: var(--white); display: block; }
+.spec-lbl { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); display: block; margin-top: 2px; }
+.car-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.car-price { font-family: var(--font-d); font-size: 28px; color: var(--gold); line-height: 1; }
+.car-price small { font-family: var(--font-b); font-size: 11px; color: var(--muted); }
+.car-unavail-tag {
+  position: absolute; top: 14px; right: 14px; background: rgba(0,0,0,0.85);
+  border: 1px solid rgba(192,57,43,0.5); color: #e74c3c;
+  padding: 4px 12px; border-radius: 100px; font-size: 10px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+}
+
+/* BOOKING FORM SECTION */
+.booking-section { background: var(--charcoal); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.booking-inner { max-width: 860px; margin: 0 auto; }
+.booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border); padding: 40px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.footer-logo { font-family: var(--font-d); font-size: 22px; letter-spacing: 5px; color: var(--white); }
+.footer-logo span { color: var(--gold); }
+.footer-copy { font-size: 11px; color: var(--muted); }
+
+/* FILTER BAR */
+.filter-bar {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  max-width: 1280px; margin: 0 auto 40px;
+}
+.filter-btn {
+  font-family: var(--font-b); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 8px 18px; border-radius: 100px; border: 1px solid var(--border);
+  background: transparent; color: var(--muted); cursor: pointer; transition: all var(--transition);
+}
+.filter-btn:hover, .filter-btn.active { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+
+/* FEATURES */
+.features-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 24px;
+  max-width: 1000px; margin: 0 auto;
+}
+.feature-box {
+  padding: 32px; text-align: center;
+  border: 1px solid var(--border); border-radius: var(--r2); background: var(--charcoal);
+}
+.feature-icon { font-size: 36px; margin-bottom: 16px; }
+.feature-title { font-family: var(--font-d); font-size: 22px; color: var(--white); margin-bottom: 8px; }
+.feature-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+/* BOOKING SUMMARY */
+#booking-summary {
+  background: var(--dark); border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 20px; margin-top: 20px; display: none;
+}
+.summary-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.summary-row:last-child { border-bottom: none; font-weight: 600; }
+.summary-total { font-family: var(--font-d); font-size: 26px; color: var(--gold); }
+
+/* License upload preview */
+.license-preview { margin-top: 12px; max-width: 100%; border-radius: var(--r); border: 1px solid var(--border); display: none; }
+
+@media (max-width: 900px) {
+  .navbar { padding: 0 24px; }
+  .section { padding: 72px 24px; }
+  .booking-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .nav-links { gap: 16px; }
+  footer { padding: 32px 24px; }
+}
+@media (max-width: 600px) {
+  .nav-links .nav-link { display: none; }
+  .hero-cta { flex-direction: column; align-items: center; }
+  .cars-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-logo">KINO<span>XE</span></div>
+  <div class="nav-links">
+    <a href="#fleet" class="nav-link">Fleet</a>
+    <a href="#book" class="nav-link">Book Now</a>
+    <a href="#about" class="nav-link">About</a>
+    <a href="admin.html" class="nav-admin-btn">Admin →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Premium Car Rental — Tankulan, Manolo Fortich, Bukidnon</div>
+    <h1 class="hero-title">Drive <em>Beyond</em><br>Ordinary</h1>
+    <p class="hero-sub">Curated fleet of premium vehicles for those who demand more than just a ride.</p>
+    <div class="hero-cta">
+      <a href="#fleet" class="btn btn-gold btn-lg">Explore Fleet</a>
+      <a href="#book" class="btn btn-outline btn-lg">Book Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="about" style="padding-bottom:60px;">
+  <div class="section-header">
+    <div class="section-eyebrow">Why Kinoxe</div>
+    <h2 class="section-title">The <em>Difference</em> is Clear</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-box">
+      <div class="feature-icon">🔑</div>
+      <div class="feature-title">Instant Booking</div>
+      <div class="feature-desc">Reserve your vehicle in minutes. Simple, transparent, and hassle-free.</div>
+    </div>
+    <div class="feature-box">
+      <div class="feature-icon">🛡</div>
+      <div class="feature-title">Fully Insured</div>
+      <div class="feature-desc">Every rental includes comprehensive insurance coverage for your peace of mind.</div>
+    </div>
+    <div class="feature-box">
+      <div class="feature-icon">🚗</div>
+      <div class="feature-title">Premium Fleet</div>
+      <div class="feature-desc">Meticulously maintained vehicles serviced before every rental.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FLEET -->
+<section class="section" id="fleet">
+  <div class="section-header">
+    <div class="section-eyebrow">Available Vehicles</div>
+    <h2 class="section-title">Our <em>Fleet</em></h2>
+    <p class="section-sub">Select a vehicle to begin your booking</p>
+  </div>
+
+  <div class="filter-bar" id="filter-bar">
+    <button class="filter-btn active" onclick="filterCars('all',this)">All</button>
+    <button class="filter-btn" onclick="filterCars('sedan',this)">Sedan</button>
+    <button class="filter-btn" onclick="filterCars('suv',this)">SUV</button>
+    <button class="filter-btn" onclick="filterCars('van',this)">Van</button>
+    <button class="filter-btn" onclick="filterCars('compact',this)">Compact</button>
+    <button class="filter-btn" onclick="filterCars('mpv',this)">MPV</button>
+  </div>
+
+  <div class="cars-grid" id="cars-grid">
+    <div class="loader" style="grid-column:1/-1;"><div class="spinner"></div><div>Loading fleet…</div></div>
+  </div>
+</section>
+
+<!-- BOOKING FORM -->
+<section class="section booking-section" id="book">
+  <div class="booking-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Reservation</div>
+      <h2 class="section-title">Book Your <em>Vehicle</em></h2>
+    </div>
+
+    <form id="booking-form" onsubmit="submitBooking(event)">
+      <div class="booking-grid mb-3">
+        <div class="form-group">
+          <label class="form-label">Full Name *</label>
+          <input type="text" id="b-name" class="form-control" placeholder="Juan dela Cruz" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Age *</label>
+          <input type="number" id="b-age" class="form-control" placeholder="25" min="18" max="80" required>
+        </div>
+      </div>
+      <div class="booking-grid mb-3">
+        <div class="form-group">
+          <label class="form-label">Contact Number *</label>
+          <input type="tel" id="b-contact" class="form-control" placeholder="09XX XXX XXXX" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="b-email" class="form-control" placeholder="juan@email.com">
+        </div>
+      </div>
+      <div class="form-group mb-3">
+        <label class="form-label">Home Address *</label>
+        <input type="text" id="b-address" class="form-control" placeholder="Complete address" required>
+      </div>
+      <div class="booking-grid mb-3">
+        <div class="form-group">
+          <label class="form-label">Select Vehicle *</label>
+          <select id="b-car" class="form-control" required onchange="updateSummary()">
+            <option value="">Choose a vehicle…</option>
+          </select>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group">
+            <label class="form-label">Pick-up Date & Time *</label>
+            <input type="datetime-local" id="b-start" class="form-control" required onchange="updateSummary()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Return Date & Time *</label>
+            <input type="datetime-local" id="b-end" class="form-control" required onchange="updateSummary()">
+          </div>
+        </div>
+      </div>
+
+      <!-- Booking Summary -->
+      <div id="booking-summary">
+        <div style="font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;">Booking Summary</div>
+        <div class="summary-row"><span>Vehicle</span><span id="sum-car">—</span></div>
+        <div class="summary-row"><span>Duration</span><span id="sum-days">—</span></div>
+        <div class="summary-row"><span>Daily Rate</span><span id="sum-rate">—</span></div>
+        <div class="summary-row">
+          <span style="font-family:var(--font-d);font-size:18px;color:var(--white);">Total</span>
+          <span class="summary-total" id="sum-total">—</span>
+        </div>
+      </div>
+
+      <div class="form-group mb-3" style="margin-top:20px;">
+        <label class="form-label">Driver's License * <span style="color:var(--muted);font-weight:400;">(Upload photo/scan)</span></label>
+        <input type="file" id="b-license" class="form-control" accept="image/*,application/pdf" required onchange="previewLicense(this)">
+        <img id="license-preview" class="license-preview" alt="License preview">
+        <div style="font-size:11px;color:var(--muted);margin-top:6px;">Accepted: JPG, PNG, PDF — Max 5MB</div>
+      </div>
+      <div class="form-group mb-3">
+        <label class="form-label">Special Requests</label>
+        <textarea id="b-notes" class="form-control" placeholder="Any special instructions or requests…"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-gold btn-lg btn-block" id="submit-btn" style="margin-top:8px;">
+        Submit Reservation →
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="success-modal">
+  <div class="modal" style="text-align:center;">
+    <div style="font-size:52px;margin-bottom:16px;">✓</div>
+    <h2 class="modal-title">Booking Received!</h2>
+    <p class="modal-sub" style="margin-bottom:8px;">Your reservation has been submitted and is pending approval.</p>
+    <div style="background:var(--dark);border:1px solid var(--border);border-radius:var(--r2);padding:20px;margin:20px 0;">
+      <div style="font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;">Reference Number</div>
+      <div style="font-family:var(--font-d);font-size:36px;color:var(--gold);" id="success-ref">—</div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:24px;">Please save this reference number. Our team will contact you for confirmation.</p>
+    <button class="btn btn-gold btn-block" onclick="closeModal('success-modal')">Done</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">KINO<span>XE</span></div>
+  <div class="footer-copy">© 2026 Veloce Car Rental. Manolo Fortich Bukidnon, Philippines.</div>
+  <a href="admin.html" style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Admin Portal →</a>
+</footer>
+
+<script src="db.js"></script>
+<script src="app.js"></script>
+<script>
+let allCars = [];
+let activeFilter = 'all';
+
+/* ── Scroll navbar ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* ── Load fleet ── */
+function loadFleet() {
+  allCars = DB.Cars.getAll();
+  populateCarSelect();
+  renderCars(allCars);
+}
+
+function renderCars(cars) {
+  const grid = $('cars-grid');
+  if (!cars.length) {
+    grid.innerHTML = '<div class="loader" style="grid-column:1/-1;"><div style="color:var(--muted);">No vehicles found.</div></div>';
+    return;
+  }
+  grid.innerHTML = cars.map(car => `
+    <div class="car-card" onclick="selectCar(${car.id})" style="cursor:pointer;">
+      ${!car.is_available ? '<div class="car-unavail-tag">Unavailable</div>' : ''}
+      <div class="car-card-img-wrap">
+        <img class="car-card-img" src="${esc(car.image_url) || 'https://images.unsplash.com/photo-1550355291-bbee04a92027?w=800&q=80'}"
+          alt="${esc(car.name)}"
+          onerror="this.src='https://images.unsplash.com/photo-1550355291-bbee04a92027?w=800&q=80'">
+      </div>
+      <div class="car-card-body">
+        <div class="car-card-name">${esc(car.name)} <small style="font-family:var(--font-b);font-size:14px;color:var(--muted)">${car.year}</small></div>
+        <div class="car-card-type">${esc(car.type)}</div>
+        <div class="car-card-specs">
+          <div class="spec-item"><span class="spec-val">${car.seats}</span><span class="spec-lbl">Seats</span></div>
+          <div class="spec-item"><span class="spec-val">${car.transmission[0]}</span><span class="spec-lbl">Trans.</span></div>
+          <div class="spec-item"><span class="spec-val">${car.fuel[0]}</span><span class="spec-lbl">Fuel</span></div>
+          <div class="spec-item"><span class="spec-val">${car.baggage}</span><span class="spec-lbl">Bags</span></div>
+        </div>
+        ${car.features?.length ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;">${car.features.slice(0,3).map(f=>`<span style="font-size:10px;padding:3px 10px;background:var(--dark);border:1px solid var(--border);border-radius:100px;color:var(--muted);">${esc(f)}</span>`).join('')}</div>` : ''}
+        <div class="car-card-footer">
+          <div class="car-price">${fmtMoney(car.price)}<small> /day</small></div>
+          <button class="btn ${car.is_available ? 'btn-gold' : 'btn-ghost'} btn-sm" onclick="selectCar(${car.id})" ${!car.is_available ? 'disabled' : ''}>
+            ${car.is_available ? 'Book Now' : 'Unavailable'}
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterCars(cat, btn) {
+  activeFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered = cat === 'all' ? allCars : allCars.filter(c => c.category === cat);
+  renderCars(filtered);
+}
+
+function populateCarSelect() {
+  const sel = $('b-car');
+  const avail = allCars.filter(c => c.is_available);
+  sel.innerHTML = '<option value="">Choose a vehicle…</option>' +
+    avail.map(c => `<option value="${c.id}" data-price="${c.price}">${esc(c.name)} ${c.year} — ${fmtMoney(c.price)}/day</option>`).join('');
+}
+
+function selectCar(id) {
+  const car = allCars.find(c => c.id === id);
+  if (!car || !car.is_available) return;
+  $('b-car').value = id;
+  updateSummary();
+  document.getElementById('book').scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ── Booking summary ── */
+function updateSummary() {
+  const carId = parseInt($('b-car').value);
+  const start  = $('b-start').value;
+  const end    = $('b-end').value;
+  const summary = $('booking-summary');
+
+  if (!carId || !start || !end) { summary.style.display = 'none'; return; }
+  if (new Date(end) <= new Date(start)) { showToast('Return date must be after pick-up date.', 'err'); summary.style.display = 'none'; return; }
+
+  const car  = allCars.find(c => c.id === carId);
+  const days = daysBetween(start, end);
+  const total = days * car.price;
+
+  $('sum-car').textContent  = `${car.name} ${car.year}`;
+  $('sum-days').textContent = `${days} day${days > 1 ? 's' : ''}`;
+  $('sum-rate').textContent = fmtMoney(car.price) + '/day';
+  $('sum-total').textContent = fmtMoney(total);
+  summary.style.display = 'block';
+}
+
+/* ── License preview ── */
+function previewLicense(input) {
+  const file = input.files[0];
+  const preview = $('license-preview');
+  if (!file) { preview.style.display = 'none'; return; }
+  if (file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = e => { preview.src = e.target.result; preview.style.display = 'block'; };
+    reader.readAsDataURL(file);
+  } else {
+    preview.style.display = 'none';
+  }
+}
+
+/* ── Submit booking ── */
+async function submitBooking(e) {
+  e.preventDefault();
+  const btn = $('submit-btn');
+  const carId = parseInt($('b-car').value);
+  const start = $('b-start').value;
+  const end   = $('b-end').value;
+
+  if (!carId) { showToast('Please select a vehicle.', 'err'); return; }
+  if (!start || !end) { showToast('Please fill in pick-up and return dates.', 'err'); return; }
+  if (new Date(end) <= new Date(start)) { showToast('Return date must be after pick-up.', 'err'); return; }
+
+  const licenseFile = $('b-license').files[0];
+  if (!licenseFile) { showToast('Please upload your driver\'s license.', 'err'); return; }
+  if (licenseFile.size > 5 * 1024 * 1024) { showToast('License file must be under 5MB.', 'err'); return; }
+
+  btn.textContent = 'Submitting…'; btn.disabled = true;
+
+  const car   = allCars.find(c => c.id === carId);
+  const days  = daysBetween(start, end);
+  const total = days * car.price;
+
+  // Store license as base64
+  let licenseData = null;
+  try { licenseData = await fileToBase64(licenseFile); } catch {}
+
+  const booking = DB.Bookings.create({
+    customer_name: $('b-name').value.trim(),
+    age:     parseInt($('b-age').value),
+    contact: $('b-contact').value.trim(),
+    email:   $('b-email').value.trim(),
+    address: $('b-address').value.trim(),
+    car_id:  carId,
+    pickup_dt: start,
+    return_dt: end,
+    days,
+    total_price: total,
+    license_data: licenseData,
+    license_filename: licenseFile.name,
+    notes_customer: $('b-notes').value.trim(),
+  });
+
+  $('success-ref').textContent = booking.ref;
+  openModal('success-modal');
+  e.target.reset();
+  $('booking-summary').style.display = 'none';
+  $('license-preview').style.display = 'none';
+  btn.textContent = 'Submit Reservation →'; btn.disabled = false;
+}
+
+/* ── Set min datetime ── */
+function setMinDates() {
+  const now = new Date();
+  now.setHours(now.getHours() + 1);
+  const iso = now.toISOString().slice(0,16);
+  $('b-start').min = iso;
+  $('b-end').min   = iso;
+}
+
+/* ── Init ── */
+document.addEventListener('DOMContentLoaded', () => {
+  loadFleet();
+  setMinDates();
+});
+</script>
+</body>
+</html>
