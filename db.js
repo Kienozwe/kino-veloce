@@ -11,7 +11,7 @@ const DB = (() => {
   function seed() {
     if (!localStorage.getItem(KEYS.admins)) {
       localStorage.setItem(KEYS.admins, JSON.stringify([
-        { id: 1, username: 'admin', password: 'veloce2024', name: 'Kino Salson', role: 'Super Admin', avatar: 'KS' }
+        { id: 1, username: 'admin', password: 'kinoxe03', name: 'Kino Salson', role: 'Super Admin', avatar: 'KS' }
       ]));
     }
     if (!localStorage.getItem(KEYS.cars)) {
